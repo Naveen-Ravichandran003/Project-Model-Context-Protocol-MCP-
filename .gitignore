@@ -1,0 +1,15 @@
+# Local environment variables
+.env
+.env.local
+
+# VS Code
+.history/
+*.log
+
+# Node
+node_modules/
+npm-debug.log*
+
+# System
+Thumbs.db
+.DS_Store
