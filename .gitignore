@@ -13,3 +13,14 @@ npm-debug.log*
 # System
 Thumbs.db
 .DS_Store
+
+
+# Gemini & Internal Agent Files
+.gemini/
+/brain/
+/mcp_config.json
+/mcp.json
+/mcp_settings.json
+/package-lock.json
+/node_modules/
+*.webp

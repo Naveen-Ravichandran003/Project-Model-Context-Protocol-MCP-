@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Execution Report — VWO Login Page</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --card: #21253a;
+      --border: #2e3250;
+      --accent-blue: #4f8ef7;
+      --accent-purple: #7c5cbf;
+      --pass: #22c55e;
+      --fail: #ef4444;
+      --pass-bg: rgba(34,197,94,0.1);
+      --fail-bg: rgba(239,68,68,0.1);
+      --text: #e2e8f0;
+      --muted: #8892a4;
+      --tag-bg: #2e3250;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ─────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, #1a1d27 0%, #21253a 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 32px 48px;
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .playwright-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-blue);
+      letter-spacing: 0.5px;
+    }
+    .playwright-badge svg { width: 16px; height: 16px; }
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .subtitle { font-size: 14px; color: var(--muted); }
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: 20px;
+    }
+    .meta-item { font-size: 13px; color: var(--muted); }
+    .meta-item span { color: var(--text); font-weight: 500; }
+
+    /* ── SUMMARY CARDS ──────────────────────────────── */
+    .summary-section {
+      display: flex;
+      gap: 16px;
+      padding: 28px 48px;
+      flex-wrap: wrap;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 28px;
+      min-width: 150px;
+      text-align: center;
+    }
+    .stat-card .num {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .stat-card .lbl {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .stat-total .num  { color: var(--accent-blue); }
+    .stat-pass  .num  { color: var(--pass); }
+    .stat-fail  .num  { color: var(--fail); }
+    .stat-rate  .num  { color: #f59e0b; }
+
+    /* ── SECTION TITLE ──────────────────────────────── */
+    .section-title {
+      padding: 0 48px 16px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0;
+    }
+
+    /* ── TEST CASE CARDS ────────────────────────────── */
+    .tc-grid {
+      padding: 28px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .tc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .tc-card:hover { box-shadow: 0 0 0 1px var(--accent-purple); }
+    .tc-card.fail-card { border-color: rgba(239,68,68,0.35); }
+
+    .tc-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 24px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+    }
+    .tc-id {
+      font-size: 13px;
+      font-weight: 700;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 10px;
+      color: var(--accent-blue);
+      white-space: nowrap;
+    }
+    .tc-scenario {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      flex: 1;
+    }
+    .tc-status {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .tc-status.pass { background: var(--pass-bg); color: var(--pass); border: 1px solid rgba(34,197,94,0.3); }
+    .tc-status.fail { background: var(--fail-bg); color: var(--fail); border: 1px solid rgba(239,68,68,0.3); }
+
+    .tc-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .tc-details { padding: 20px 24px; }
+    .tc-screenshot { padding: 20px 24px; border-left: 1px solid var(--border); }
+
+    .detail-row { margin-bottom: 14px; }
+    .detail-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 4px;
+    }
+    .detail-value {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .detail-value ol { padding-left: 16px; }
+    .detail-value ol li { margin-bottom: 2px; }
+
+    .expected-box { background: rgba(79,142,247,0.06); border: 1px solid rgba(79,142,247,0.2); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #93c5fd; }
+    .actual-pass  { background: var(--pass-bg); border: 1px solid rgba(34,197,94,0.2); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #86efac; }
+    .actual-fail  { background: var(--fail-bg); border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #fca5a5; }
+
+    .ss-img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .ss-img:hover { transform: scale(1.01); }
+    .ss-label { font-size: 11px; color: var(--muted); margin-top: 6px; text-align: center; }
+
+    .jira-bug-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      background: rgba(239,68,68,0.06);
+      border-top: 1px solid rgba(239,68,68,0.2);
+    }
+    .jira-badge {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 6px;
+      background: rgba(239,68,68,0.12);
+      color: #fca5a5;
+      border: 1px solid rgba(239,68,68,0.3);
+    }
+    .jira-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-blue);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .jira-link:hover { text-decoration: underline; }
+    .jira-desc { font-size: 12px; color: var(--muted); }
+
+    /* lightbox ------------------------------------------*/
+    .lightbox {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 10px; }
+    .lightbox-close {
+      position: absolute; top: 20px; right: 28px;
+      background: none; border: none; color: #fff; font-size: 32px; cursor: pointer;
+    }
+
+    /* ── FOOTER ─────────────────────────────────────── */
+    footer {
+      padding: 28px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    footer a { color: var(--accent-blue); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────────── -->
+<header>
+  <div class="header-top">
+    <div class="playwright-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+      </svg>
+      Playwright MCP
+    </div>
+  </div>
+  <h1>Test Execution Report</h1>
+  <div class="subtitle">VWO Login Page — Automated Execution via Playwright MCP</div>
+  <div class="meta-row">
+    <div class="meta-item">Application: <span>https://app.vwo.com/#/login</span></div>
+    <div class="meta-item">Execution Date: <span>2026-03-16</span></div>
+    <div class="meta-item">Framework: <span>RICEPOT Method</span></div>
+    <div class="meta-item">Engine: <span>Playwright MCP</span></div>
+    <div class="meta-item">Bug Tracker: <span>Jira MCP — KAN Project</span></div>
+  </div>
+</header>
+
+<!-- ── SUMMARY ────────────────────────────────────────── -->
+<div class="summary-section">
+  <div class="stat-card stat-total"><div class="num">5</div><div class="lbl">Total</div></div>
+  <div class="stat-card stat-pass"><div class="num">4</div><div class="lbl">Passed</div></div>
+  <div class="stat-card stat-fail"><div class="num">1</div><div class="lbl">Failed</div></div>
+  <div class="stat-card stat-rate"><div class="num">80%</div><div class="lbl">Pass Rate</div></div>
+</div>
+
+<!-- ── TEST CASES ─────────────────────────────────────── -->
+<div class="section-title">Test Cases</div>
+<div class="tc-grid">
+
+  <!-- TC_LOGIN_001 -->
+  <div class="tc-card">
+    <div class="tc-header">
+      <div class="tc-id">TC_LOGIN_001</div>
+      <div class="tc-scenario">Validate password visibility using the eye icon</div>
+      <div class="tc-status pass">✓ PASS</div>
+    </div>
+    <div class="tc-body">
+      <div class="tc-details">
+        <div class="detail-row">
+          <div class="detail-label">Preconditions</div>
+          <div class="detail-value">User is on the VWO login page</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Test Steps</div>
+          <div class="detail-value">
+            <ol>
+              <li>Navigate to https://app.vwo.com/#/login</li>
+              <li>Enter valid email in the email field</li>
+              <li>Enter a password in the password field</li>
+              <li>Click the eye icon to toggle password visibility</li>
+              <li>Verify the password becomes visible</li>
+            </ol>
+          </div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Test Data</div>
+          <div class="detail-value">Email: user@example.com &nbsp;|&nbsp; Password: ValidPass123</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Expected Result</div>
+          <div class="expected-box">The password should become visible when the eye icon is clicked</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Actual Result</div>
+          <div class="actual-pass">Password ValidPass123 became visible in plain text. Eye icon toggled input type from password → text as expected.</div>
+        </div>
+      </div>
+      <div class="tc-screenshot">
+        <div class="detail-label" style="margin-bottom:10px">Screenshot</div>
+        <img src="screenshots/TC_LOGIN_001.png" class="ss-img" onclick="openLightbox(this)" alt="TC_LOGIN_001 screenshot" />
+        <div class="ss-label">TC_LOGIN_001.png</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TC_LOGIN_002 -->
+  <div class="tc-card">
+    <div class="tc-header">
+      <div class="tc-id">TC_LOGIN_002</div>
+      <div class="tc-scenario">Verify login attempt with a valid email and an incorrect password</div>
+      <div class="tc-status pass">✓ PASS</div>
+    </div>
+    <div class="tc-body">
+      <div class="tc-details">
+        <div class="detail-row">
+          <div class="detail-label">Preconditions</div>
+          <div class="detail-value">User has a registered VWO account</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Test Steps</div>
+          <div class="detail-value">
+            <ol>
+              <li>Navigate to https://app.vwo.com/#/login</li>
+              <li>Enter a valid email address</li>
+              <li>Enter an incorrect password</li>
+              <li>Click the Sign in button</li>
+            </ol>
+          </div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Test Data</div>
+          <div class="detail-value">Email: user@example.com &nbsp;|&nbsp; Password: WrongPass123</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Expected Result</div>
+          <div class="expected-box">System should display: "Your email, password, IP address or location did not match."</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Actual Result</div>
+          <div class="actual-pass">Error message displayed: "Your email, password, IP address or location did not match". User remained on the login page.</div>
+        </div>
+      </div>
+      <div class="tc-screenshot">
+        <div class="detail-label" style="margin-bottom:10px">Screenshot</div>
+        <img src="screenshots/TC_LOGIN_002.png" class="ss-img" onclick="openLightbox(this)" alt="TC_LOGIN_002 screenshot" />
+        <div class="ss-label">TC_LOGIN_002.png</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TC_LOGIN_003 -->
+  <div class="tc-card">
+    <div class="tc-header">
+      <div class="tc-id">TC_LOGIN_003</div>
+      <div class="tc-scenario">Verify login attempt with an invalid email and a valid password</div>
+      <div class="tc-status pass">✓ PASS</div>
+    </div>
+    <div class="tc-body">
+      <div class="tc-details">
+        <div class="detail-row">
+          <div class="detail-label">Preconditions</div>
+          <div class="detail-value">Login page is accessible</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Test Steps</div>
+          <div class="detail-value">
+            <ol>
+              <li>Navigate to https://app.vwo.com/#/login</li>
+              <li>Enter an invalid email address</li>
+              <li>Enter a valid password</li>
+              <li>Click the Sign in button</li>
+            </ol>
+          </div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Test Data</div>
+          <div class="detail-value">Email: wronguser@example.com &nbsp;|&nbsp; Password: ValidPass123</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Expected Result</div>
+          <div class="expected-box">System should display: "Your email, password, IP address or location did not match."</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Actual Result</div>
+          <div class="actual-pass">Error message displayed as expected. reCAPTCHA also triggered after multiple failed attempts.</div>
+        </div>
+      </div>
+      <div class="tc-screenshot">
+        <div class="detail-label" style="margin-bottom:10px">Screenshot</div>
+        <img src="screenshots/TC_LOGIN_003.png" class="ss-img" onclick="openLightbox(this)" alt="TC_LOGIN_003 screenshot" />
+        <div class="ss-label">TC_LOGIN_003.png</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TC_LOGIN_004 -->
+  <div class="tc-card">
+    <div class="tc-header">
+      <div class="tc-id">TC_LOGIN_004</div>
+      <div class="tc-scenario">Verify navigation to the Forgot Passcode page</div>
+      <div class="tc-status pass">✓ PASS</div>
+    </div>
+    <div class="tc-body">
+      <div class="tc-details">
+        <div class="detail-row">
+          <div class="detail-label">Preconditions</div>
+          <div class="detail-value">User is on the VWO login page</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Test Steps</div>
+          <div class="detail-value">
+            <ol>
+              <li>Navigate to https://app.vwo.com/#/login</li>
+              <li>Click the 'Forgot Password?' link</li>
+              <li>Verify navigation to the Forgot Passcode page</li>
+            </ol>
+          </div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Test Data</div>
+          <div class="detail-value">N/A</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Expected Result</div>
+          <div class="expected-box">User should be redirected to the Forgot Passcode page where they can reset their passcode</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Actual Result</div>
+          <div class="actual-pass">Redirected to https://app.vwo.com/#/forgot-password. Page loaded with Email address input and Reset Password button.</div>
+        </div>
+      </div>
+      <div class="tc-screenshot">
+        <div class="detail-label" style="margin-bottom:10px">Screenshot</div>
+        <img src="screenshots/TC_LOGIN_004.png" class="ss-img" onclick="openLightbox(this)" alt="TC_LOGIN_004 screenshot" />
+        <div class="ss-label">TC_LOGIN_004.png</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TC_LOGIN_005 — FAIL -->
+  <div class="tc-card fail-card">
+    <div class="tc-header">
+      <div class="tc-id">TC_LOGIN_005</div>
+      <div class="tc-scenario">Valid login credentials but expecting dashboard redirect</div>
+      <div class="tc-status fail">✗ FAIL</div>
+    </div>
+    <div class="tc-body">
+      <div class="tc-details">
+        <div class="detail-row">
+          <div class="detail-label">Preconditions</div>
+          <div class="detail-value">User has a registered VWO account</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Test Steps</div>
+          <div class="detail-value">
+            <ol>
+              <li>Navigate to https://app.vwo.com/#/login</li>
+              <li>Enter a valid email address</li>
+              <li>Enter a valid password</li>
+              <li>Click the Sign in button</li>
+            </ol>
+          </div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Test Data</div>
+          <div class="detail-value">Email: user@example.com &nbsp;|&nbsp; Password: ValidPass123</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Expected Result</div>
+          <div class="expected-box">User should be successfully authenticated and redirected to the VWO Dashboard.</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Actual Result</div>
+          <div class="actual-fail">System displays "Your email, password, IP address or location did not match" and user remains on the login page.</div>
+        </div>
+      </div>
+      <div class="tc-screenshot">
+        <div class="detail-label" style="margin-bottom:10px">Screenshot</div>
+        <img src="screenshots/TC_LOGIN_005.png" class="ss-img" onclick="openLightbox(this)" alt="TC_LOGIN_005 screenshot" />
+        <div class="ss-label">TC_LOGIN_005.png</div>
+      </div>
+    </div>
+    <div class="jira-bug-row">
+      <span class="jira-badge">🐛 JIRA Bug</span>
+      <a class="jira-link" href="https://naveen-workflow.atlassian.net/browse/KAN-246" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        KAN-246
+      </a>
+      <span class="jira-desc">TC_LOGIN_005 - Login Test Failure: Valid credentials - error message received instead of dashboard &nbsp;|&nbsp; <strong>Evidence Attached</strong> &nbsp;|&nbsp; Status: To Do</span>
+      <img src="screenshots/JIRA_KAN-246.png" class="ss-img" onclick="openLightbox(this)" alt="JIRA KAN-246 Updated Screenshot" style="width:180px;margin-left:auto;border-radius:8px;border:1px solid rgba(79,142,247,0.3)"/>
+    </div>
+  </div>
+
+</div><!-- /tc-grid -->
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer>
+  <div>Generated by <strong>Playwright MCP</strong> &nbsp;·&nbsp; RICEPOT Framework &nbsp;·&nbsp; 2026-03-16</div>
+  <div>
+    Bug Tracker: <a href="https://naveen-workflow.atlassian.net/browse/KAN-246" target="_blank">KAN-246 on Jira</a>
+    &nbsp;·&nbsp;
+    Application: <a href="https://app.vwo.com/#/login" target="_blank">app.vwo.com</a>
+  </div>
+</footer>
+
+<!-- ── LIGHTBOX ────────────────────────────────────────── -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <img id="lightbox-img" src="" alt="enlarged screenshot" onclick="event.stopPropagation()" />
+</div>
+
+<script>
+  function openLightbox(img) {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('active');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+</body>
+</html>

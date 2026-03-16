@@ -1,0 +1,13 @@
+# VWO Login Page — Test Cases (RICEPOT Method)
+
+**URL:** https://app.vwo.com/#/login
+
+---
+
+| Test Case ID | Test Scenario | Preconditions | Test Steps | Test Data | Expected Result | Actual Result | Status |
+|---|---|---|---|---|---|---|---|
+| TC_LOGIN_001 | Validate password visibility using the eye icon | User is on the VWO login page | 1. Navigate to https://app.vwo.com/#/login<br>2. Enter a valid email address in the email field<br>3. Enter a password in the password field<br>4. Click the eye icon in the password field<br>5. Verify the password visibility | Email: user@example.com<br>Password: ValidPass123 | The password should become visible when the eye icon is clicked | The password is displayed in plain text in the password field | Pass |
+| TC_LOGIN_002 | Verify login attempt with a valid email and an incorrect password | User has a registered VWO account | 1. Navigate to https://app.vwo.com/#/login<br>2. Enter a valid email address<br>3. Enter an incorrect password<br>4. Click the Login button | Email: user@example.com<br>Password: WrongPass123 | System should display the error message: 'Your email, password, IP address or location did not match.' | System displays the error message: 'Your email, password, IP address or location did not match.' | Pass |
+| TC_LOGIN_003 | Verify login attempt with an invalid email and a valid password | Login page is accessible | 1. Navigate to https://app.vwo.com/#/login<br>2. Enter an invalid email address<br>3. Enter a valid password<br>4. Click the Login button | Email: wronguser@example.com<br>Password: ValidPass123 | System should display the error message: 'Your email, password, IP address or location did not match.' | System displays the error message: 'Your email, password, IP address or location did not match.' | Pass |
+| TC_LOGIN_004 | Verify navigation to the Forgot Passcode page | User is on the VWO login page | 1. Navigate to https://app.vwo.com/#/login<br>2. Click the 'Forgot Passcode?' link<br>3. Verify navigation to the Forgot Passcode page | N/A | User should be redirected to the Forgot Passcode page where they can reset their passcode | Forgot Passcode page opens successfully | Pass |
+| TC_LOGIN_005 | Valid login credentials but expecting an error message | User has a registered VWO account | 1. Navigate to https://app.vwo.com/#/login<br>2. Enter a valid email address<br>3. Enter a valid password<br>4. Click the Login button | Email: user@example.com<br>Password: ValidPass123 | System should display the error message: 'Your email, password, IP address or location did not match.' | User successfully logs in and the dashboard is displayed | Fail |
