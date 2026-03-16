@@ -10,7 +10,7 @@ This project automates the validation of the VWO Login page across multiple scen
 
 ## 📊 Quick Links
 
-- 🚀 **[Launch Full Test Execution Report (Click to Open)](file:///c:/Users/Naveen/Naveen%20Ravichandran%20-%20AI/Model%20Context%20Protocol%20(MCP)/Project%202%20-%20MCP%20+%20Playwright%20+%20JIRA%20Workflow/Test_Execution_Report.html)**
+- 🚀 **[Launch Full Test Execution Report](file:///C:/Users/Naveen/Naveen%20Ravichandran%20-%20AI/Model%20Context%20Protocol%20(MCP)/Project%202%20-%20MCP%20+%20Playwright%20+%20JIRA%20Workflow/Test_Execution_Report.html)**
 - 📋 **[Test Cases Document (PDF/Excel Source)](./Test%20Cases/VWO_Login_TestCases_RICEPOT%20METHOD.xlsx)**
 - 🐛 **[Live JIRA Bug (KAN-246)](https://naveen-workflow.atlassian.net/browse/KAN-246)**
 
