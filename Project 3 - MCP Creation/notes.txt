@@ -1,0 +1,12 @@
+MCP stands for Model Context Protocol.
+
+MCP helps AI systems communicate with external tools and services.
+
+Using MCP, AI applications can:
+- Read files
+- Execute automation tests
+- Create Jira bugs
+- Access databases
+- Send emails
+
+MCP uses MCP servers to expose tools that AI systems can discover and invoke dynamically.
