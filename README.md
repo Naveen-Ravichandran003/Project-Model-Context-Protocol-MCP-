@@ -33,3 +33,37 @@ This repository contains real-world, automated workflows powered by the **Model 
 If you are cloning this repository to run it locally with your own agent (like Claude Desktop, Cursor, or Windsurf), ensure you have your `.vscode/mcp.json` configured with your specific Jira API credentials and Playwright environment.
 
 *Detailed configuration steps can be found inside the respective project folders.*
+
+## 🧪 Run MCP servers locally
+
+Quick instructions to run the sample MCP servers in this repo.
+
+- From the project root (`Project 3 - MCP Creation`) you can run the calculator server:
+
+```powershell
+cd "Project 3 - MCP Creation"
+fastmcp run calculator_mcp.py --no-banner
+```
+
+- To run the file reader server using STDIO (the terminal will be owned by the server):
+
+```powershell
+cd "Project 3 - MCP Creation"
+fastmcp run file_reader_mcp.py --transport stdio --no-banner
+```
+
+Keep that terminal dedicated to the MCP process and then connect with the MCP Inspector (Transport: STDIO).
+
+- Alternatively, run the file reader over HTTP so the Inspector can connect remotely:
+
+```powershell
+cd "Project 3 - MCP Creation"
+fastmcp run file_reader_mcp.py --transport http --host 127.0.0.1 --port 8000 --no-banner
+```
+
+Then open the MCP Inspector and point it to `http://127.0.0.1:8000/mcp/`.
+
+### VS Code config
+
+This repo includes an example VS Code MCP config at `.vscode/mcp.json` with entries for `calculator` and `file_reader`. Use those to launch servers from the Inspector or adjust args to match your preferred transport.
+

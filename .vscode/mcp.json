@@ -1,24 +1,17 @@
 {
-  "servers": {
-    "playwright": {
-      "type": "stdio",
-      "command": "npx",
-      "args": [
-        "@playwright/mcp@latest"
-      ]
-    },
-    "jira": {
-      "type": "stdio",
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-atlassian"
-      ],
-      "env": {
-        "JIRA_URL": "${env:JIRA_URL}",
-        "JIRA_USERNAME": "${env:JIRA_USERNAME}",
-        "JIRA_API_TOKEN": "${env:JIRA_API_TOKEN}"
-      }
-    }
-  }
-}
+	"servers": {
+		"calculator": {
+			"label": "Calculator MCP",
+			"command": "fastmcp",
+			"args": ["run", "calculator_mcp.py", "--no-banner"],
+			"cwd": "Project 3 - MCP Creation",
+			"env": {}
+		},
+		"file_reader": {
+			"label": "File Reader MCP",
+			"command": "fastmcp",
+			"args": ["run", "file_reader_mcp.py", "--transport", "stdio", "--no-banner"],
+			"cwd": "Project 3 - MCP Creation",
+			"env": {}
+		}
+	}
